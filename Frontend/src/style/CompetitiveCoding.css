@@ -1,0 +1,116 @@
+.coding-profiles-container {
+  padding: 40px;
+  text-align: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #00bcd4;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  animation: fadeInDown 1s ease forwards;
+}
+
+/* Fade-in animation for title */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profiles-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* Card Styling */
+.profile-card {
+  background: #1e1e1e;
+  width: 280px;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  text-decoration: none;
+  color: #e0e0e0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border-top: 5px solid transparent;
+  transition: transform 0.4s ease, background-color 0.4s ease, border-top 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  background-color: #2a2a2a;
+  border-top: 5px solid #00bcd4;
+}
+
+/* Platform Logo */
+.platform-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  transition: transform 0.4s ease;
+}
+
+.profile-card:hover .platform-logo {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* Platform Name */
+.profile-card h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #00bcd4;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  animation: fadeInUp 1s ease forwards;
+}
+
+/* Username */
+.username {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+/* Questions Solved Box */
+.questions-solved {
+  background: linear-gradient(135deg, #00bcd4, #4fc3f7);
+  color: #1e1e1e;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 188, 212, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+}
+
+.profile-card:hover .questions-solved {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 188, 212, 0.7);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,136 @@
+.footer {
+  background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+  color: white;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-section {
+  flex: 1 1 250px;
+  min-width: 250px;
+}
+
+.footer-section h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  color: #ff4d4d;
+}
+
+.footer-section h3::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #ff4d4d;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+/* Quotes Styling */
+.footer-quote {
+  margin: 12px 0;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.6;
+  color: #f1f1f1;
+  border-left: 3px solid #ff4d4d;
+  padding-left: 12px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-quote:hover {
+  transform: translateX(5px);
+  color: #ff8080;
+}
+
+.footer-section a {
+  color: white;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  color: #ff4d4d;
+  transform: translateX(5px);
+}
+
+/* Feedback Form */
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.feedback-form textarea {
+  resize: none;
+  height: 100px;
+}
+
+.feedback-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #ff4d4d;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.feedback-form button:hover {
+  background: #e63939;
+  transform: scale(1.05);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-section {
+    min-width: 100%;
+  }
+
+  .feedback-form input,
+  .feedback-form textarea {
+    width: 100%;
+  }
+}
