@@ -3,14 +3,15 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 const app = express();
-const PORT = 3000;
+// ✅ Use the port from the environment, or 3000 as a default for local testing
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/feedbackDB", {
+mongoose.connect("mongodb+srv://gautamkumar00812_db_user:BDZJ5RtCb5N3n7I5@cluster0.eye2sfh.mongodb.net/feedbackDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
