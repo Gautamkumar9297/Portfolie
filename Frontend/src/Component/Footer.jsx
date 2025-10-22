@@ -1,3 +1,4 @@
+// index.js (Backend)
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -7,14 +8,14 @@ const PORT = process.env.PORT || 3000;
 
 // ✅ Allow only your frontend Render domain
 app.use(cors({
-  origin: ["https://gautamportfolie.onrender.com"],
+  origin: ["https://gautamportfolie.onrender.com"], // your frontend link
   methods: ["GET", "POST"],
 }));
 
 app.use(express.json());
 
-// ✅ Connect to MongoDB Atlas (replace with your DB name)
-mongoose.connect("mongodb+srv://gautamkumar:Mypassword@cluster0.eye2sfh.mongodb.net/PortfolioDB")
+// ✅ Connect to MongoDB Atlas
+mongoose.connect("mongodb+srv://gautamkumar:Mypassword@cluster0.eye2sfh.mongodb.net/PortfolioDB?retryWrites=true&w=majority")
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
@@ -29,30 +30,36 @@ const feedbackSchema = new mongoose.Schema({
 // ✅ Model
 const Feedback = mongoose.model("Feedback", feedbackSchema);
 
-// ✅ POST route: Save feedback
+// ✅ POST: Save feedback
 app.post("/feedback", async (req, res) => {
   try {
     const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
+      return res.status(400).json({ success: false, error: "All fields are required" });
+    }
+
     const newFeedback = new Feedback({ name, email, message });
     await newFeedback.save();
     res.status(201).json({ success: true, message: "Feedback saved successfully!" });
   } catch (error) {
-    console.error("Error saving feedback:", error);
+    console.error("❌ Error saving feedback:", error);
     res.status(500).json({ success: false, error: "Server error" });
   }
 });
 
-// ✅ GET route: Get all feedback
+// ✅ GET: Fetch all feedback
 app.get("/feedback", async (req, res) => {
   try {
     const feedbacks = await Feedback.find().sort({ createdAt: -1 });
     res.json(feedbacks);
   } catch (error) {
+    console.error("❌ Error fetching feedback:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
 
 // ✅ Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running at port ${PORT}`);
 });
