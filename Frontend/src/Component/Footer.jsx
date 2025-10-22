@@ -15,7 +15,7 @@ app.use(cors({
 app.use(express.json());
 
 mongoose.connect("mongodb+srv://gautamkumar:Mypassword@cluster0.eye2sfh.mongodb.net/PortfolioDB?retryWrites=true&w=majority")
-  .then(() => console.log("✅ MongoDB connected"))
+  .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 
