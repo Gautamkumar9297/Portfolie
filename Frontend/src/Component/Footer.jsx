@@ -1,112 +1,58 @@
-import React, { useState } from "react";
-import "../style/Footer.css";
-import { FaInstagram, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
 
-function Footer() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+// ✅ Allow only your frontend Render domain
+app.use(cors({
+  origin: ["https://gautamportfolie.onrender.com"],
+  methods: ["GET", "POST"],
+}));
 
-    try {
-      const response = await fetch("http://localhost:3000/feedback", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, message }),
-      });
+app.use(express.json());
 
-      const data = await response.json();
-      console.log("Server response:", data);
+// ✅ Connect to MongoDB Atlas (replace with your DB name)
+mongoose.connect("mongodb+srv://gautamkumar:Mypassword@cluster0.eye2sfh.mongodb.net/PortfolioDB")
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-      if (response.ok) {
-        alert("✅ Feedback submitted successfully!");
-        setName("");
-        setEmail("");
-        setMessage("");
-      } else {
-        alert("❌ Error: " + data.error);
-      }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      alert("⚠️ Something went wrong!");
-    } finally {
-      setLoading(false);
-    }
-  };
+// ✅ Schema
+const feedbackSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
+  createdAt: { type: Date, default: Date.now },
+});
 
-  return (
-    <footer className="footer">
-      <div className="footer-content">
-        {/* Inspiration / Quotes Section */}
-        <div className="footer-section">
-          <h3>Why Choose Us?</h3>
-          <p className="footer-quote">🌟 “Plan your work, then work your plan.”</p>
-          <p className="footer-quote">🚀 “Small progress each day adds up to big results.”</p>
-          <p className="footer-quote">💡 “Productivity is the bridge between goals and accomplishments.”</p>
-        </div>
+// ✅ Model
+const Feedback = mongoose.model("Feedback", feedbackSchema);
 
-        {/* Social Media */}
-        <div className="footer-section">
-          <h3>Follow Us</h3>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer">
-            <FaInstagram /> Instagram
-          </a>
-          <br />
-          <a href="https://facebook.com" target="_blank" rel="noreferrer">
-            <FaFacebook /> Facebook
-          </a>
-          <br />
-          <a href="https://twitter.com" target="_blank" rel="noreferrer">
-            <FaTwitter /> Twitter
-          </a>
-          <br />
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-            <FaLinkedin /> LinkedIn
-          </a>
-        </div>
+// ✅ POST route: Save feedback
+app.post("/feedback", async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    const newFeedback = new Feedback({ name, email, message });
+    await newFeedback.save();
+    res.status(201).json({ success: true, message: "Feedback saved successfully!" });
+  } catch (error) {
+    console.error("Error saving feedback:", error);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+});
 
-        {/* Feedback Form */}
-        <div className="footer-section">
-          <h3>Feedback</h3>
-          <form className="feedback-form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <textarea
-              placeholder="Your Feedback"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            />
-            <button type="submit" disabled={loading}>
-              {loading ? "Submitting..." : "Submit"}
-            </button>
-          </form>
-        </div>
-      </div>
+// ✅ GET route: Get all feedback
+app.get("/feedback", async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find().sort({ createdAt: -1 });
+    res.json(feedbacks);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
-      <div className="footer-bottom">
-        <p>© 2025 PortFolie. All Rights Reserved.</p>
-      </div>
-    </footer>
-  );
-}
-
-export default Footer;
+// ✅ Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
