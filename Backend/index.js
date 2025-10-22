@@ -3,19 +3,18 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 const app = express();
-// ✅ Use the port from the environment, or 3000 as a default for local testing
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
+// ✅ MongoDB Connection (no deprecated options, with DB name)
 mongoose.connect("mongodb+srv://gautamkumar:Mypassword@cluster0.eye2sfh.mongodb.net/PortfolioDB")
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Define Schema
+// Schema
 const feedbackSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -23,7 +22,7 @@ const feedbackSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// Define Model
+// Model
 const Feedback = mongoose.model("Feedback", feedbackSchema);
 
 // POST: Save feedback
@@ -49,7 +48,8 @@ app.get("/feedback", async (req, res) => {
   }
 });
 
-// Start server
+// Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
+
