@@ -6,7 +6,7 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Allow only your frontend Render domain
+
 app.use(cors({
   origin: ["https://gautamportfolie.onrender.com"], // your frontend link
   methods: ["GET", "POST"],
@@ -14,12 +14,11 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Connect to MongoDB Atlas
 mongoose.connect("mongodb+srv://gautamkumar:Mypassword@cluster0.eye2sfh.mongodb.net/PortfolioDB?retryWrites=true&w=majority")
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// ✅ Schema
+
 const feedbackSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -27,10 +26,10 @@ const feedbackSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// ✅ Model
+
 const Feedback = mongoose.model("Feedback", feedbackSchema);
 
-// ✅ POST: Save feedback
+
 app.post("/feedback", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -48,7 +47,7 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
-// ✅ GET: Fetch all feedback
+
 app.get("/feedback", async (req, res) => {
   try {
     const feedbacks = await Feedback.find().sort({ createdAt: -1 });
@@ -59,7 +58,7 @@ app.get("/feedback", async (req, res) => {
   }
 });
 
-// ✅ Start server
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running at port ${PORT}`);
 });
